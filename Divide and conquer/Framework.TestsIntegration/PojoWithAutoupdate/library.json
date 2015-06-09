@@ -1,0 +1,44 @@
+{
+    "classes": [
+        {
+            "attributes": [
+                {  
+                    "name": "ISBN", 
+                    "type": "string"
+                }, 
+                {
+                    "name": "title", 
+                    "type": "string"
+                }
+            ], 
+            "name": "Book"
+        }, 
+        {
+            "attributes": [
+                {
+                    "name": "name", 
+                    "type": "string"
+                }, 
+                {
+                    "name": "biography", 
+                    "type": "string"
+                }
+            ], 
+            "name": "Author"
+        }
+    ],
+    "associations": [
+        {
+            "source": "Book", 
+            "sourceMultiplicity": [
+                "1", 
+                "*"
+            ], 
+            "target": "Author", 
+            "targetMultiplicity": [
+                "0", 
+                "1"
+            ]
+        }
+    ]
+}
