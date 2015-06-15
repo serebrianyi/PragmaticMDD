@@ -1,0 +1,1 @@
+These coffee script files are included in html, so they need to be compiled without the top-level function safety wrapper: "coffee -b -c uml_m2m.coffee"
