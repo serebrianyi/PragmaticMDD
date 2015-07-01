@@ -1,0 +1,23 @@
+<html>
+<head>
+<script type="text/javascript" src="..\Framework\web\jquery-1.11.3.js"></script>
+<script type="text/javascript" src="..\Framework\web\jquery_plantuml.js"></script>
+<script type="text/javascript" src="..\Framework\web\rawdeflate.js"></script>
+<script type="text/javascript" src="..\Framework\uml\uml_m2m.js"></script>
+<script type="text/javascript" src="..\Framework\uml\uml_m2t.js"></script>
+<script>
+$(function() {
+  $.getJSON("models/library.json", function(model) {
+    uml = transformModel(model);
+    imgDiagram = $("#diagramm");
+    imgDiagram.attr("uml", diagram(uml));
+    plantuml_runonce();
+  })
+});
+</script>
+</head>
+<body>
+    <img id="diagramm" />
+</body>
+</html>
+

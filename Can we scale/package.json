@@ -1,0 +1,9 @@
+{
+  "name": "PragmaticMDD",
+  "description": "Best practices for a pragmatic approach to model driven development",  
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
+  },
+  "engine": "node >= 0.12"
+}
