@@ -1,0 +1,386 @@
+{
+	"associations": [
+		{
+			"source": "Book",
+			"sourceMultiplicity": [
+				"1",
+				"*"
+			],
+			"sourceIsAggregation": true,
+			"target": "Author",
+			"targetMultiplicity": [
+				"1",
+				"*"
+			],
+			"targetName": "wrote",
+			"sourceName": "authors"
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"12"
+			],
+			"sourceName": "borrowedBy",
+			"target": "Account",
+			"targetMultiplicity": [
+				"0",
+				"1"
+			],
+			"targetName": "borrowed"
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"3"
+			],
+			"sourceName": "reservedBy",
+			"target": "Account",
+			"targetMultiplicity": [
+				"0",
+				"1"
+			],
+			"targetName": "reserved"
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"*"
+			],
+			"target": "Catalog",
+			"targetMultiplicity": [
+				"1",
+				"1"
+			],
+			"targetName": "records",
+			"sourceName": "catalog"
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"*"
+			],
+			"target": "Library",
+			"targetMultiplicity": [
+				"1",
+				"1"
+			],
+			"sourceName": "library",
+			"targetName": "bookitems"
+		},
+		{
+			"source": "Catalog",
+			"sourceMultiplicity": [
+				"1",
+				"1"
+			],
+			"target": "Library",
+			"targetMultiplicity": [
+				"1",
+				"1"
+			],
+			"sourceName": "library",
+			"targetName": "catalog"
+		}
+	],
+	"classes": [
+		{
+			"name": "Author2",
+			"attributes": [
+				{
+					"name": "name2",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "biography2",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Book",			
+			"attributes": [
+				{
+					"name": "ISBN",
+					"type": "string 13",
+					"multiplicity": [
+						"0",
+						"1"
+					],
+					"businessKey": true
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "summary",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "publisher",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "publicationDate",
+					"type": "date",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "numberOfPages",
+					"type": "int",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "language",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"superType": "Author2",
+			"attributes": [
+				{
+					"name": "name",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "biography",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "BookItem",
+			"superType": "Book",
+			"attributes": [
+				{
+					"name": "barcode",
+					"type": "string 13",
+					"multiplicity": [
+						"0",
+						"1"
+					],
+					"businessKey": true
+				},
+				{
+					"name": "tag",
+					"type": "RFID",
+					"multiplicity": [
+						"0",
+						"1"
+					],
+					"businessKey": true
+				},
+				{
+					"name": "isReferenceOnly",
+					"type": "bool",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]			
+		},
+		{
+			"name": "BookItem2",
+			"superType": "BookItem",
+			"attributes": [
+				{
+					"name": "barcode2",
+					"type": "string 13",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]			
+		},
+		{
+			"name": "BookItem3",
+			"superType": "Book",
+			"attributes": [
+				{
+					"name": "barcode3",
+					"type": "string 13",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"attributes": [
+				{
+					"name": "number",
+					"type": "int",
+					"businessKey": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "opened",
+					"type": "date",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "state",
+					"type": "AccountState",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Catalog",
+			"attributes": [
+				{
+					"name": "name",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Library",
+			"attributes": [
+				{
+					"name": "name",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "address",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		}
+	],
+	"customTypes": [
+		{
+			"name": "RFID",
+			"primitiveType": "int",
+			"max": "100"
+		},
+		{
+			"name": "string 13",
+			"primitiveType": "string",
+			"max": "13"
+		},
+		{
+			"name": "AccountState",
+			"primitiveType": "enum",
+			"values": [
+				"Active",
+				"Frozen",
+				"Closed"
+			]
+		}
+	]
+}

@@ -21,6 +21,7 @@ inputModel.associations.forEach (association) ->
 	targetClass = (outputModel.classes.filter (clazz) -> clazz.name == association.target)[0]
 	targetClass.associations.push { name: association.targetName, type: association.source, multiplicity: association.sourceMultiplicity }
 
+
 # define templates
 mappedType = (field) -> switch field
 							when "string" then "String"

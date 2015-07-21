@@ -1,3 +1,6 @@
+# include dependencies
+common = require '../common'
+
 # define templates
 exports.mappedType = (field) -> switch field
 							when "string" then "String"
@@ -5,7 +8,7 @@ exports.mappedType = (field) -> switch field
 							when "bool" then "boolean"
 							else field
 exports.fieldType = (item) -> if item.multiplicity and item.multiplicity[1] != "1" then "java.util.List<" + exports.mappedType(item.type) + ">" else exports.mappedType(item.type)
-exports.propertyName = (str) -> str.charAt(0).toUpperCase() + str.slice(1) # format property name: name -> Name
+exports.propertyName = (str) -> common.firstUpper(str)
 
 # attribute templates
 exports.attributeText = (attribute) -> "#{exports.preAttributeFieldDeclaration(attribute)}	private #{exports.fieldType(attribute)} #{attribute.name};"
@@ -50,15 +53,15 @@ exports.setItemTemplate = (association) ->"	public void set#{exports.propertyNam
         						"		if (item != null) #{exports.setSetterOtherEnd(association)}\n" +  
     							"	}\n"  
 exports.resetSetterOtherEnd = (association, itemName) -> 
-		if association.otherMultiplicity[1] != "1"
-			"#{itemName}.get#{exports.propertyName(association.otherName)}().remove(this);"
+		if association.other.multiplicity[1] != "1"
+			"#{itemName}.get#{exports.propertyName(association.other.name)}().remove(this);"
 		else
-			"#{itemName}.set#{exports.propertyName(association.otherName)}Direct(null);"
-exports.setSetterOtherEnd = (association) -> 
-		if association.otherMultiplicity[1] != "1"
-			"item.get#{exports.propertyName(association.otherName)}().add(this);"															
+			"#{itemName}.set#{exports.propertyName(association.other.name)}Direct(null);"
+exports.setSetterOtherEnd = (association) -> 		
+		if association.other.multiplicity[1] != "1"
+			"item.get#{exports.propertyName(association.other.name)}().add(this);"															
 		else
-			"item.set#{exports.propertyName(association.otherName)}Direct(this);"
+			"item.set#{exports.propertyName(association.other.name)}Direct(this);"
 exports.associationProperty = (association) -> 							
 							"	public #{exports.fieldType(association)} get#{exports.propertyName(association.name)}() { return #{association.name}; }\n" +
 							"	void set#{exports.propertyName(association.name)}Direct(#{exports.fieldType(association)} value) { #{association.name} = value; }\n" + 
@@ -68,7 +71,7 @@ exports.associationProperty = (association) ->
 # injection points
 exports.preAttributeFieldDeclaration = (attribute) -> ""
 exports.preAssociationFieldDeclaration = (association) -> ""
-exports.preClassDeclaration = (clazz) -> "444"
+exports.preClassDeclaration = (clazz) -> ""
 
 # class templates
 exports.classText = (namespace, clazz) -> "package #{namespace};\n\n" +
