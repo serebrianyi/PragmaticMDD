@@ -8,7 +8,7 @@ exports.fieldType = (item) -> if item.multiplicity and item.multiplicity[1] != "
 exports.propertyName = (str) -> str.charAt(0).toUpperCase() + str.slice(1) # format property name: name -> Name
 
 # attribute templates
-exports.attributeText = (attribute) -> "#{exports.preAttributeFieldDeclaration(attribute)}	private #{exports.fieldType(attribute)} #{attribute.name};"
+exports.attributeText = (attribute) -> "	private #{exports.fieldType(attribute)} #{attribute.name};"
 exports.attributeProperty = (attribute) -> 							
 							"	public #{exports.fieldType(attribute)} get#{exports.propertyName(attribute.name)}() { return #{attribute.name}; }\n" + 
 							"	public void set#{exports.propertyName(attribute.name)}(#{exports.fieldType(attribute)} value) { \n" +							
@@ -16,15 +16,8 @@ exports.attributeProperty = (attribute) ->
 							"	}\n" 
 
 # association templates
-exports.fieldInitializer = (association) ->
-	if association.multiplicity[1] != "1" 
-		if association.other.multiplicity[1] != "1"
-			" = new java.util.LinkedHashSet<>()" 
-		else
-			" = new java.util.ArrayList<>()"
-	else 
-		""
-exports.associationText = (association) -> "#{exports.preAssociationFieldDeclaration(association)}	private #{exports.fieldType(association)} #{association.name}#{exports.fieldInitializer(association)};"
+exports.fieldInitializer = (association) -> [" = new java.util.ArrayList<>()" if association.multiplicity[1] != "1"]
+exports.associationText = (association) -> "	private #{exports.fieldType(association)} #{association.name} #{exports.fieldInitializer(association)};"
 exports.addItem = (association) -> 
 							"	public void add#{exports.propertyName(association.name)}Item(#{association.type} item) {\n" +
         						"	if (item != null) {\n" +
@@ -40,8 +33,7 @@ exports.removeItem = (association) ->
         						"		}\n" +
         						"		return false;\n" +
     							"	}\n"
-exports.bidirectionalHelpers = (association) -> 
-	if association.multiplicity[1] != "1"  then (exports.addItem(association) + exports.removeItem(association)) else exports.setItemTemplate(association)
+exports.bidirectionalHelpers = (association) -> if association.multiplicity[1] != "1" then (exports.addItem(association) + exports.removeItem(association)) else exports.setItemTemplate(association)
 exports.setItemTemplate = (association) ->"	public void set#{exports.propertyName(association.name)} (#{exports.fieldType(association)} item) {\n" +
 								"		#{exports.fieldType(association)} prevItem = get#{exports.propertyName(association.name)}(); \n" + 
 								"		if (prevItem == item) return; \n" + 
@@ -64,15 +56,8 @@ exports.associationProperty = (association) ->
 							"	void set#{exports.propertyName(association.name)}Direct(#{exports.fieldType(association)} value) { #{association.name} = value; }\n" + 
 							exports.bidirectionalHelpers(association)
 
-
-# injection points
-exports.preAttributeFieldDeclaration = (attribute) -> ""
-exports.preAssociationFieldDeclaration = (association) -> ""
-exports.preClassDeclaration = (clazz) -> "444"
-
 # class templates
-exports.classText = (namespace, clazz) -> "package #{namespace};\n\n" +
-						"#{exports.preClassDeclaration(clazz)}" + 
+exports.classText = (namespace, clazz) -> "package #{namespace};\n\n\n" + 
 						"public class #{clazz.name}" + ([" extends #{clazz.superType}" if clazz.superType]) + " {\n\n" + 
 						(clazz.attributes.map (attribute) -> exports.attributeText(attribute)).join("\n\n") + "\n\n" + 
 						(clazz.associations.map (association) -> exports.associationText(association)).join("\n\n") + "\n\n" + 
