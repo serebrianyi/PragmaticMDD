@@ -1,0 +1,346 @@
+{
+	"classes": [
+		{
+			"name": "Book",
+			"attributes": [
+				{
+					"name": "ISBN",
+					"type": "ISBN",
+					"multiplicity": [
+						"0",
+						"1"
+					],
+					"businessKey": true
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "summary",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "publisher",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "publicationDate",
+					"type": "date",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "numberOfPages",
+					"type": "int",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "language",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"attributes": [
+				{
+					"name": "name",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "biography",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "BookItem",
+			"superType": "Book",
+			"attributes": [
+				{
+					"name": "barcode",
+					"type": "string",
+					"multiplicity": [
+						"0",
+						"1"
+					],
+					"businessKey": true
+				},
+				{
+					"name": "tag",
+					"type": "RFID",
+					"multiplicity": [
+						"0",
+						"1"
+					],
+					"businessKey": true
+				},
+				{
+					"name": "isReferenceOnly",
+					"type": "bool",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"attributes": [
+				{
+					"name": "number",
+					"type": "int",
+					"businessKey": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "opened",
+					"type": "date",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "state",
+					"type": "AccountState",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Catalog",
+			"attributes": [
+				{
+					"name": "name",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		},
+		{
+			"name": "Library",
+			"attributes": [
+				{
+					"name": "name",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "address",
+					"type": "string",
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				},
+				{
+					"name": "id",
+					"type": "int",
+					"identity": true,
+					"multiplicity": [
+						"1",
+						"1"
+					]
+				}
+			]
+		}
+	],
+	"associations": [
+		{
+			"source": "Book",
+			"sourceMultiplicity": [
+				"1",
+				"*"
+			],
+			"target": "Author",
+			"targetMultiplicity": [
+				"1",
+				"*"
+			],
+			"targetName": "wrote",
+			"sourceIsAggregation": false,
+			"targetIsAggregation": false,
+			"sourceName": "authors"
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"12"
+			],
+			"sourceName": "borrowedBy",
+			"target": "Account",
+			"targetMultiplicity": [
+				"0",
+				"1"
+			],
+			"targetName": "borrowed",
+			"sourceIsAggregation": false,
+			"targetIsAggregation": false
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"3"
+			],
+			"sourceName": "reservedBy",
+			"target": "Account",
+			"targetMultiplicity": [
+				"0",
+				"1"
+			],
+			"targetName": "reserved",
+			"sourceIsAggregation": false,
+			"targetIsAggregation": false
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"*"
+			],
+			"target": "Catalog",
+			"targetMultiplicity": [
+				"1",
+				"1"
+			],
+			"targetName": "records",
+			"sourceIsAggregation": false,
+			"targetIsAggregation": false,
+			"sourceName": "catalog"
+		},
+		{
+			"source": "BookItem",
+			"sourceMultiplicity": [
+				"0",
+				"*"
+			],
+			"target": "Library",
+			"targetMultiplicity": [
+				"1",
+				"1"
+			],
+			"targetIsAggregation": true,
+			"sourceIsAggregation": false,
+			"sourceName": "library",
+			"targetName": "bookItems"
+		},
+		{
+			"source": "Catalog",
+			"sourceMultiplicity": [
+				"1",
+				"1"
+			],
+			"target": "Library",
+			"targetMultiplicity": [
+				"1",
+				"1"
+			],
+			"targetIsAggregation": true,
+			"sourceIsAggregation": false,
+			"sourceName": "library",
+			"targetName": "catalog"
+		}
+	],
+	"customTypes": [
+		{
+			"name": "RFID",
+			"primitiveType": "int"
+		},
+		{
+			"name": "ISBN",
+			"primitiveType": "string",
+			"length": "13"
+		},
+		{
+			"name": "AccountState",
+			"primitiveType": "enum",
+			"values": [
+				"Active",
+				"Frozen",
+				"Closed"
+			]
+		}
+	]
+}
