@@ -6,3 +6,6 @@ It should be not based on any existing MDD technology (nothing from OAW, no ATL,
 
 # Technology
 JSON for model definitions, CoffeeScript as implementetion language, Node.js as an execution engine
+
+# License
+MIT
